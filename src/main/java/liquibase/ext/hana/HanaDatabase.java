@@ -1,4 +1,4 @@
-package liquibase.database.ext;
+package liquibase.ext.hana;
 
 
 import liquibase.database.AbstractJdbcDatabase;
@@ -11,12 +11,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class HanaDBDatabase extends AbstractJdbcDatabase {
+public class HanaDatabase extends AbstractJdbcDatabase {
 
     public static final String PRODUCT_NAME = "HDB";
     protected Set<String> systemViews = new HashSet<String>();
 
-    public HanaDBDatabase() {
+    public HanaDatabase() {
         super();
         systemViews.add("---");
 
@@ -358,6 +358,11 @@ public class HanaDBDatabase extends AbstractJdbcDatabase {
 
     @Override
     public boolean supportsAutoIncrement() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsPrimaryKeyNames() {
         return false;
     }
 }
