@@ -21,4 +21,9 @@ public class HanaBooleanType extends BooleanType {
     public DatabaseDataType toDatabaseDataType(Database database) {
         return new DatabaseDataType("SMALLINT");
     }
+    
+    @Override
+	protected boolean isNumericBoolean(Database database) {
+		return true;
+	}
 }
