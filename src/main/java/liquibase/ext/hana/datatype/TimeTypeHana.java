@@ -1,12 +1,15 @@
 package liquibase.ext.hana.datatype;
 
 import liquibase.database.Database;
+import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
-import liquibase.datatype.core.BlobType;
+import liquibase.datatype.LiquibaseDataType;
+import liquibase.datatype.core.TimeType;
 import liquibase.ext.hana.HanaDatabase;
 
-public class HanaBlobType extends BlobType {
-
+@DataTypeInfo(name = "time", aliases = { "java.sql.Types.TIME", "java.sql.Time",
+        "timetz" }, minParameters = 0, maxParameters = 0, priority = LiquibaseDataType.PRIORITY_DEFAULT)
+public class TimeTypeHana extends TimeType {
     @Override
     public int getPriority() {
         return PRIORITY_DATABASE;
@@ -19,6 +22,7 @@ public class HanaBlobType extends BlobType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        return new DatabaseDataType("BLOB");
+        return new DatabaseDataType("TIME");
     }
+
 }

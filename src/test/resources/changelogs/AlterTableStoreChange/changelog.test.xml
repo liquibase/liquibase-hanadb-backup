@@ -1,0 +1,34 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:hana="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="breglerj" id="1">
+		<sql>CREATE ROW TABLE MY_TAB(id int, text nvarchar(255))</sql>
+	</changeSet>
+
+	<changeSet author="breglerj" id="2">
+		<insert tableName="MY_TAB">
+			<column name="id" value="1" />
+			<column name="text" value="Text 1" />
+		</insert>
+		<insert tableName="MY_TAB">
+			<column name="id" value="2" />
+			<column name="text" value="Text 2" />
+		</insert>
+	</changeSet>
+
+
+	<changeSet author="breglerj" id="3">
+		<hana:alterTableStore tableName="MY_TAB"
+			tableStore="ROW" />
+	</changeSet>
+
+	<changeSet author="breglerj" id="4">
+		<hana:alterTableStore tableName="MY_TAB"
+			tableStore="COLUMN" />
+	</changeSet>
+
+</databaseChangeLog>
