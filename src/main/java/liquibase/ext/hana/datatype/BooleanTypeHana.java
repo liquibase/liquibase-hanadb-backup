@@ -1,11 +1,15 @@
 package liquibase.ext.hana.datatype;
 
 import liquibase.database.Database;
+import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
-import liquibase.datatype.core.NumberType;
+import liquibase.datatype.LiquibaseDataType;
+import liquibase.datatype.core.BooleanType;
 import liquibase.ext.hana.HanaDatabase;
 
-public class HanaNumberType extends NumberType {
+@DataTypeInfo(name = "boolean", aliases = { "java.sql.Types.BOOLEAN", "java.lang.Boolean", "bit",
+        "bool" }, minParameters = 0, maxParameters = 0, priority = LiquibaseDataType.PRIORITY_DATABASE)
+public class BooleanTypeHana extends BooleanType {
 
     @Override
     public int getPriority() {
@@ -19,6 +23,6 @@ public class HanaNumberType extends NumberType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        return new DatabaseDataType("DECIMAL");
+        return new DatabaseDataType("BOOLEAN");
     }
 }

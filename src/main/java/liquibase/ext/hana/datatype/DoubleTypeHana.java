@@ -1,12 +1,15 @@
 package liquibase.ext.hana.datatype;
 
 import liquibase.database.Database;
+import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
-import liquibase.datatype.core.BooleanType;
+import liquibase.datatype.LiquibaseDataType;
+import liquibase.datatype.core.DoubleType;
 import liquibase.ext.hana.HanaDatabase;
 
-public class HanaBooleanType extends BooleanType {
-
+@DataTypeInfo(name = "double", aliases = { "java.sql.Types.DOUBLE",
+        "java.lang.Double" }, minParameters = 0, maxParameters = 2, priority = LiquibaseDataType.PRIORITY_DATABASE)
+public class DoubleTypeHana extends DoubleType {
     @Override
     public int getPriority() {
         return PRIORITY_DATABASE;
@@ -19,6 +22,6 @@ public class HanaBooleanType extends BooleanType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        return new DatabaseDataType("SMALLINT");
+        return new DatabaseDataType("DOUBLE");
     }
 }

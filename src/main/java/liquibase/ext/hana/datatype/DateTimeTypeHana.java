@@ -1,11 +1,15 @@
 package liquibase.ext.hana.datatype;
 
 import liquibase.database.Database;
+import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
-import liquibase.datatype.core.ClobType;
+import liquibase.datatype.LiquibaseDataType;
+import liquibase.datatype.core.DateTimeType;
 import liquibase.ext.hana.HanaDatabase;
 
-public class HanaClobType extends ClobType {
+@DataTypeInfo(name = "datetime", minParameters = 0, maxParameters = 1, aliases = { "java.sql.Types.DATETIME",
+        "java.util.Date", "smalldatetime", "datetime2" }, priority = LiquibaseDataType.PRIORITY_DATABASE)
+public class DateTimeTypeHana extends DateTimeType {
 
     @Override
     public int getPriority() {
@@ -19,6 +23,6 @@ public class HanaClobType extends ClobType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        return new DatabaseDataType("NCLOB");
+        return new DatabaseDataType("TIMESTAMP");
     }
 }

@@ -1,11 +1,15 @@
 package liquibase.ext.hana.datatype;
 
 import liquibase.database.Database;
+import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
+import liquibase.datatype.LiquibaseDataType;
 import liquibase.datatype.core.CurrencyType;
 import liquibase.ext.hana.HanaDatabase;
 
-public class HanaCurrencyType extends CurrencyType {
+@DataTypeInfo(name = "currency", aliases = { "money",
+        "smallmoney" }, minParameters = 0, maxParameters = 0, priority = LiquibaseDataType.PRIORITY_DATABASE)
+public class CurrencyTypeHana extends CurrencyType {
 
     @Override
     public int getPriority() {
@@ -19,6 +23,6 @@ public class HanaCurrencyType extends CurrencyType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        return new DatabaseDataType("DECIMAL(15,2)");
+        return new DatabaseDataType("DECIMAL", 15, 2);
     }
 }
