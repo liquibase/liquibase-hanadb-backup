@@ -1,14 +1,5 @@
 package liquibase.ext.hana.change;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import liquibase.Scope;
 import liquibase.change.Change;
 import liquibase.change.ChangeFactory;
 import liquibase.change.ChangeMetaData;
@@ -25,6 +16,13 @@ import liquibase.resource.ResourceAccessor;
 import liquibase.sql.Sql;
 import liquibase.sqlgenerator.SqlGeneratorFactory;
 import liquibase.statement.SqlStatement;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class AlterTableStoreChangeTest extends BaseTestCase {
 
@@ -81,7 +79,7 @@ public class AlterTableStoreChangeTest extends BaseTestCase {
     public void getChangeMetaData() {
         AlterTableStoreChange mergeTablesChange = new AlterTableStoreChange();
 
-        ChangeFactory changeFactory = Scope.getCurrentScope().getSingleton(ChangeFactory.class);
+        ChangeFactory changeFactory = ChangeFactory.getInstance();
 
         assertEquals("alterTableStore", changeFactory.getChangeMetaData(mergeTablesChange).getName());
         assertEquals("Alter Table Store (Column/Row)",

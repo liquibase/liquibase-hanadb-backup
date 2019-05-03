@@ -8,7 +8,7 @@ import liquibase.sqlgenerator.core.AddColumnGenerator;
 import liquibase.statement.AutoIncrementConstraint;
 import liquibase.statement.DatabaseFunction;
 import liquibase.statement.core.AddColumnStatement;
-import liquibase.util.StringUtil;
+import liquibase.util.StringUtils;
 
 public class AddColumnGeneratorHana extends AddColumnGenerator {
     @Override
@@ -59,7 +59,7 @@ public class AddColumnGeneratorHana extends AddColumnGenerator {
 
         if (statement.getRemarks() != null) {
             alterTable += " COMMENT '"
-                    + database.escapeStringForDatabase(StringUtil.trimToEmpty(statement.getRemarks())) + "' ";
+                    + database.escapeStringForDatabase(StringUtils.trimToEmpty(statement.getRemarks())) + "' ";
         }
         
         alterTable += ")";
