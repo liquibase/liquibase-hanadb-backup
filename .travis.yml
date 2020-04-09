@@ -1,0 +1,40 @@
+language: java
+
+os: linux
+
+services:
+  - docker
+  
+env:
+  global:
+    - HXE_VERSION=2.00.036.00.20190223.1
+    - |-
+      PASSWORD_FILE_CONTENT='{"master_password" : "L1qu1base_test"}'
+    - PASSWORD_FILE_NAME=passwords.json
+
+before_script:
+  - mkdir $TRAVIS_BUILD_DIR/HXE
+  - chmod -R 777 $TRAVIS_BUILD_DIR/HXE
+  - echo $PASSWORD_FILE_CONTENT > $TRAVIS_BUILD_DIR/HXE/$PASSWORD_FILE_NAME
+  - chmod 777 $TRAVIS_BUILD_DIR/HXE/$PASSWORD_FILE_NAME
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker pull store/saplabs/hanaexpress:$HXE_VERSION
+  - docker run -d -p 39013:39013 -p 39015:39015 -p 39017:39017 -p 39041-39045:39041-39045 -p 1128-1129:1128-1129 -p 59013-59014:59013-59014 -v $TRAVIS_BUILD_DIR/HXE:/hana/mounts --ulimit nofile=1048576:1048576 --sysctl kernel.shmmax=1073741824 --sysctl net.ipv4.ip_local_port_range='40000 60999' --sysctl kernel.shmmni=524288 --sysctl kernel.shmall=8388608 --name HXETravisCI store/saplabs/hanaexpress:$HXE_VERSION --passwords-url file:///hana/mounts/$PASSWORD_FILE_NAME --agree-to-sap-license
+  - sleep 10
+  - |-
+    while true; do 
+      STARTING_CONTAINERS=`docker ps --filter "name=HXETravisCI" --format "{{.Names}} {{.Status}}" | grep 'health: starting' | wc -l`;
+      echo "Waiting for $STARTING_CONTAINERS HANA container(s) to finish startup";
+      if [ $STARTING_CONTAINERS -ne 1 ]; then
+        break; 
+      fi;
+      sleep 5; 
+    done
+  - docker ps -a
+  - |-
+    docker exec HXETravisCI bash -l -c "hdbsql -u SYSTEM -p L1qu1base_test -i 90 -d HXE 'CREATE USER LIQUIBASE_TEST PASSWORD L1qu1base_test NO FORCE_FIRST_PASSWORD_CHANGE'"
+  - docker logout
+
+addons:
+  hosts:
+  - hxehost

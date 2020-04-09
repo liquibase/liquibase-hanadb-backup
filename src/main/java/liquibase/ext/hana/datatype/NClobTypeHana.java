@@ -4,12 +4,13 @@ import liquibase.database.Database;
 import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
 import liquibase.datatype.LiquibaseDataType;
-import liquibase.datatype.core.NVarcharType;
+import liquibase.datatype.core.ClobType;
 import liquibase.ext.hana.HanaDatabase;
 
-@DataTypeInfo(name = "nvarchar", aliases = { "java.sql.Types.NVARCHAR", "nvarchar2", "shorttext",
-		"national" }, minParameters = 0, maxParameters = 1, priority = LiquibaseDataType.PRIORITY_DATABASE)
-public class NVarcharTypeHana extends NVarcharType {
+@DataTypeInfo(name = "nclob", aliases = { "longnvarchar", "ntext", "text", "longtext", "bintext", "tinytext",
+		"mediumtext", "java.sql.Types.LONGNVARCHAR",
+		"java.sql.Types.NCLOB" }, minParameters = 0, maxParameters = 0, priority = LiquibaseDataType.PRIORITY_DATABASE)
+public class NClobTypeHana extends ClobType {
 
 	@Override
 	public int getPriority() {
@@ -23,11 +24,6 @@ public class NVarcharTypeHana extends NVarcharType {
 
 	@Override
 	public DatabaseDataType toDatabaseDataType(Database database) {
-		Object[] parameters = getParameters();
-		if (parameters.length > 0) {
-			return new DatabaseDataType("NVARCHAR", parameters[0]);
-		}
-		return new DatabaseDataType("NVARCHAR");
+		return new DatabaseDataType("NCLOB");
 	}
-
 }

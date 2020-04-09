@@ -7,24 +7,22 @@ import liquibase.datatype.LiquibaseDataType;
 import liquibase.datatype.core.ClobType;
 import liquibase.ext.hana.HanaDatabase;
 
-@DataTypeInfo(name = "clob", aliases = { "longvarchar", "text", "longtext", "java.sql.Types.LONGVARCHAR",
-        "java.sql.Types.CLOB", "nclob", "longnvarchar", "ntext", "java.sql.Types.LONGNVARCHAR", "java.sql.Types.NCLOB",
-        "tinytext",
-        "mediumtext" }, minParameters = 0, maxParameters = 0, priority = LiquibaseDataType.PRIORITY_DATABASE)
+@DataTypeInfo(name = "clob", aliases = { "longvarchar", "java.sql.Types.LONGVARCHAR",
+		"java.sql.Types.CLOB" }, minParameters = 0, maxParameters = 0, priority = LiquibaseDataType.PRIORITY_DATABASE)
 public class ClobTypeHana extends ClobType {
 
-    @Override
-    public int getPriority() {
-        return PRIORITY_DATABASE;
-    }
+	@Override
+	public int getPriority() {
+		return PRIORITY_DATABASE;
+	}
 
-    @Override
-    public boolean supports(Database database) {
-        return database instanceof HanaDatabase;
-    }
+	@Override
+	public boolean supports(Database database) {
+		return database instanceof HanaDatabase;
+	}
 
-    @Override
-    public DatabaseDataType toDatabaseDataType(Database database) {
-        return new DatabaseDataType("CLOB");
-    }
+	@Override
+	public DatabaseDataType toDatabaseDataType(Database database) {
+		return new DatabaseDataType("CLOB");
+	}
 }
