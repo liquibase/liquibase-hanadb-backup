@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import liquibase.Scope;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.DatabaseConnection;
 import liquibase.database.ObjectQuotingStrategy;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.DatabaseException;
 import liquibase.logging.LogService;
-import liquibase.logging.LogType;
 import liquibase.statement.DatabaseFunction;
 import liquibase.statement.SqlStatement;
 import liquibase.statement.core.RawCallStatement;
@@ -57,12 +57,12 @@ public class HanaDatabase extends AbstractJdbcDatabase {
             Connection connection = ((JdbcConnection) conn).getWrappedConnection();
 
             if (connection == null) {
-                LogService.getLog(getClass()).info(LogType.LOG, "Could not get JDBC connection");
+                Scope.getCurrentScope().getLog(getClass()).info("Could not get JDBC connection");
             } else {
                 try {
                     addReservedWords(Arrays.asList(connection.getMetaData().getSQLKeywords().split(",\\s*")));
                 } catch (SQLException e) {
-                    LogService.getLog(getClass()).info(LogType.LOG, "Could not get SQL keywords: " + e.getMessage());
+                    Scope.getCurrentScope().getLog(getClass()).info("Could not get SQL keywords: " + e.getMessage());
                 }
 
                 try (PreparedStatement statement = connection
@@ -73,7 +73,7 @@ public class HanaDatabase extends AbstractJdbcDatabase {
                         }
                     }
                 } catch (SQLException e) {
-                    LogService.getLog(getClass()).info(LogType.LOG, "Could not get system views: " + e.getMessage());
+                    Scope.getCurrentScope().getLog(getClass()).info("Could not get system views: " + e.getMessage());
                 }
 
                 try (PreparedStatement statement = connection
@@ -84,7 +84,7 @@ public class HanaDatabase extends AbstractJdbcDatabase {
                         }
                     }
                 } catch (SQLException e) {
-                    LogService.getLog(getClass()).info(LogType.LOG, "Could not get system tables: " + e.getMessage());
+                    Scope.getCurrentScope().getLog(getClass()).info("Could not get system tables: " + e.getMessage());
                 }
             }
         }

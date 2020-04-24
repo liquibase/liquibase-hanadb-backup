@@ -1,0 +1,2 @@
+liquibase.ext.hana.snapshot.SequenceSnapshotGeneratorHana
+liquibase.ext.hana.snapshot.UniqueConstraintSnapshotGeneratorHana

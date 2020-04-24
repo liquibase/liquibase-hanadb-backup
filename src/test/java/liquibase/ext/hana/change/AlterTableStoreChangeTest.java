@@ -1,5 +1,6 @@
 package liquibase.ext.hana.change;
 
+import liquibase.Scope;
 import liquibase.change.Change;
 import liquibase.change.ChangeFactory;
 import liquibase.change.ChangeMetaData;
@@ -79,7 +80,7 @@ public class AlterTableStoreChangeTest extends BaseTestCase {
     public void getChangeMetaData() {
         AlterTableStoreChange mergeTablesChange = new AlterTableStoreChange();
 
-        ChangeFactory changeFactory = ChangeFactory.getInstance();
+        ChangeFactory changeFactory = Scope.getCurrentScope().getSingleton(ChangeFactory.class);
 
         assertEquals("alterTableStore", changeFactory.getChangeMetaData(mergeTablesChange).getName());
         assertEquals("Alter Table Store (Column/Row)",

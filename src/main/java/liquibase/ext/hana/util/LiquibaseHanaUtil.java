@@ -1,5 +1,17 @@
 package liquibase.ext.hana.util;
 
+import liquibase.Scope;
+import liquibase.database.Database;
+import liquibase.database.DatabaseConnection;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.datatype.DatabaseDataType;
+import liquibase.exception.DatabaseException;
+import liquibase.logging.LogService;
+import liquibase.structure.core.Catalog;
+import liquibase.structure.core.Column;
+import liquibase.structure.core.Schema;
+import liquibase.structure.core.Table;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,18 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import liquibase.database.Database;
-import liquibase.database.DatabaseConnection;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.datatype.DatabaseDataType;
-import liquibase.exception.DatabaseException;
-import liquibase.logging.LogService;
-import liquibase.logging.LogType;
-import liquibase.structure.core.Catalog;
-import liquibase.structure.core.Column;
-import liquibase.structure.core.Schema;
-import liquibase.structure.core.Table;
 
 public class LiquibaseHanaUtil {
 
@@ -64,8 +64,7 @@ public class LiquibaseHanaUtil {
                     }
                 }
             } catch (DatabaseException | SQLException e) {
-                LogService.getLog(LiquibaseHanaUtil.class).info(LogType.LOG,
-                        "Could not get column information for column \"" + columnName + "\" of table \"" + schemaName
+                Scope.getCurrentScope().getLog(LiquibaseHanaUtil.class).info("Could not get column information for column \"" + columnName + "\" of table \"" + schemaName
                                 + "\".\"" + tableName + "\"",
                         e);
             }
@@ -92,8 +91,7 @@ public class LiquibaseHanaUtil {
                     }
                 }
             } catch (DatabaseException | SQLException e) {
-                LogService.getLog(LiquibaseHanaUtil.class).info(LogType.LOG,
-                        "Could not get table type information for table \"" + schemaName + "\".\"" + tableName + "\"",
+                Scope.getCurrentScope().getLog(LiquibaseHanaUtil.class).info("Could not get table type information for table \"" + schemaName + "\".\"" + tableName + "\"",
                         e);
             }
         }
