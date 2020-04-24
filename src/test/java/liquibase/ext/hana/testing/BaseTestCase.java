@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import liquibase.Liquibase;
@@ -44,7 +45,7 @@ public class BaseTestCase {
 
                 jdbcConnection = new JdbcConnection(connection);
 
-            } catch (@SuppressWarnings("unused") ClassNotFoundException e) {
+            } catch (@SuppressWarnings("unused") ClassNotFoundException | SQLException e) {
                 jdbcConnection = new OfflineConnection("offline:sap?catalog=LIQUIBASE_TEST",
                         new ClassLoaderResourceAccessor());
             }
