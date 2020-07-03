@@ -43,6 +43,7 @@ public class UniqueConstraintSnapshotGeneratorHana extends UniqueConstraintSnaps
                 .fastFetch();
     }
 
+
     @Override
     protected List<Map<String, ?>> listColumns(UniqueConstraint example, Database database, DatabaseSnapshot snapshot)
             throws DatabaseException {
