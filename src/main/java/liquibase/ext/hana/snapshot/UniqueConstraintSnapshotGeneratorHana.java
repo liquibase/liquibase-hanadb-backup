@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import liquibase.Scope;
 import liquibase.database.Database;
 import liquibase.exception.DatabaseException;
 import liquibase.executor.ExecutorService;
@@ -42,6 +43,7 @@ public class UniqueConstraintSnapshotGeneratorHana extends UniqueConstraintSnaps
                 .fastFetch();
     }
 
+
     @Override
     protected List<Map<String, ?>> listColumns(UniqueConstraint example, Database database, DatabaseSnapshot snapshot)
             throws DatabaseException {
@@ -63,10 +65,9 @@ public class UniqueConstraintSnapshotGeneratorHana extends UniqueConstraintSnaps
         if (constraintName != null) {
             sql += "and CONSTRAINT_NAME='" + constraintName + "'";
         }
-        List<Map<String, ?>> rows = ExecutorService.getInstance().getExecutor(database)
+        List<Map<String, ?>> rows = Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor("jdbc", database)
                 .queryForList(new RawSqlStatement(sql));
 
         return rows;
-
     }
 }

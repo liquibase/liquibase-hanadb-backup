@@ -1,27 +1,20 @@
 package liquibase.ext.hana.sqlgenerator;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import liquibase.database.Database;
-import liquibase.database.DatabaseConnection;
-import liquibase.database.jvm.JdbcConnection;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.datatype.DatabaseDataType;
 import liquibase.datatype.LiquibaseDataType;
-import liquibase.exception.DatabaseException;
 import liquibase.ext.hana.HanaDatabase;
 import liquibase.ext.hana.util.LiquibaseHanaUtil;
-import liquibase.logging.LogService;
-import liquibase.logging.LogType;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.ModifyDataTypeGenerator;
 import liquibase.statement.core.ModifyDataTypeStatement;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ModifyDataTypeGeneratorHana extends ModifyDataTypeGenerator {
     @Override
